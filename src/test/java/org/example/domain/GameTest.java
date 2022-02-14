@@ -1,7 +1,5 @@
 package org.example.domain;
 
-import static org.junit.Assert.assertTrue;
-
 import org.assertj.core.api.Assertions;
 import org.example.Game;
 import org.example.Player;

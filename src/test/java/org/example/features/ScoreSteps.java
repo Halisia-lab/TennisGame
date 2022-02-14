@@ -9,7 +9,7 @@ import org.example.Game;
 import org.example.Player;
 
 public class ScoreSteps {
-    private ScenarioContext context;
+    private final ScenarioContext context;
 
     public ScoreSteps(ScenarioContext context) {
         this.context = context;
@@ -94,6 +94,16 @@ public class ScoreSteps {
     @Then("playerOne score translation should be {string}")
     public void playerOneScoreTranslationShouldBe(String string) {
         Assertions.assertThat(context.game.getScoreTraduction().get(context.game.getPlayerOne().getScore())).isEqualTo(string);
+    }
+
+    @Then("nobody should have advantage in game")
+    public void nobodyShouldHaveAdvantageIngame() {
+        Assertions.assertThat(context.game.getAdvantage()).isNull();
+    }
+
+    @Then("game should not have a winner")
+    public void gameShouldNotHaveAWinner() {
+        Assertions.assertThat(context.game.getWinner()).isNull();
     }
 
 

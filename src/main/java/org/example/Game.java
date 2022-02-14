@@ -40,11 +40,7 @@ public class Game {
     }
 
     public boolean isDeuce() {
-        return this.playerOne.getScore() >= 3 && this.playerTwo.getScore() >= 3;
-    }
-
-    public Player playerWithHighestScore() {
-        return playerOne.getScore() > playerTwo.getScore() ? playerOne : playerTwo;
+        return this.playerOne.getScore() >= 3 && this.playerOne.getScore() == this.playerTwo.getScore();
     }
 
     public Player getWinner() {
@@ -67,24 +63,43 @@ public class Game {
         }
     }
 
-    public String getScore() {
+    public String getGameScore() {
 
-        /*if (hasWinner()) {
-            return playerWithHighestScore() + " wins";
-        }*/
-
-        /*if (hasAdvantage()) {
-            return "Advantage " + playerWithHighestScore();
-        }*/
-
-        if (isDeuce())
-            return "Deuce";
-
-        if(playerOne.getScore() == playerTwo.getScore()) {
-            return translateScore(playerOne.getScore()) + " all";
+        if (getWinner() != null) {
+            return getWinner().getName() + " WINS";
         }
 
-        return translateScore(playerOne.getScore()) + "," + translateScore(playerTwo.getScore());
+        if (getAdvantage() != null) {
+            return String.format("ADVANTAGE : %s", getAdvantage().getName());
+        }
+
+        if(playerOne.getScore() == playerTwo.getScore()) {
+            if (isDeuce()) {
+                return "DEUCE";
+            }
+            return translateScore(playerOne.getScore()) + " ALL";
+        }
+
+        return String.format("%s : %s, %s : %s",
+                playerOne.getName(), translateScore(playerOne.getScore()),playerTwo.getName(),translateScore(playerTwo.getScore()));
+    }
+
+    public void play(){
+
+        System.out.println("game starts");
+        System.out.println(getGameScore());
+        //TODO voir avec les filles pour un illegalScoreException (si on entre des players avec p1.score = 8 et p2.score = 3 par exemple)
+        // => pas expliqué par codé ?
+        while(getWinner() == null){
+            if((int)Math.round(Math.random()) == 0){
+                playerOne.scores();
+                System.out.println(playerOne.getName() + " scores");
+            } else{
+                playerTwo.scores();
+                System.out.println(playerTwo.getName() + " scores");
+            }
+            System.out.println(getGameScore());
+        }
     }
 
 }

@@ -18,6 +18,12 @@ Feature: Score translation
     Then playerTwo's score should be 5
     And game winner should be playerTwo
 
+  Scenario: PlayerOne scores fourth point but does not win
+    Given playerOne has scored 3 times
+    And playerTwo has scored 4 times
+    When playerOne scores
+    Then playerOne's score should be 4
+    And game should not have a winner
 
   #Scenario: PlayerOne's fourth point and victory
     #Given playerOne has scored 4 times
