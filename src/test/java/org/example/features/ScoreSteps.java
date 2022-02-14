@@ -37,7 +37,7 @@ public class ScoreSteps {
     }
 
     @Given("playerOne has scored {int} times")
-    public void playerOneHasPoints(int score) {
+    public void playerOneHasScoredTime(int score) {
         context.game.getPlayerOne().setScore(score);
     }
 
@@ -76,29 +76,9 @@ public class ScoreSteps {
         Assertions.assertThat(game.getWinner()).isEqualTo(game.getPlayerTwo());
     }
 
-    @Then("{game} score should be DEUCE")
-    public void gameScoreShouldBeDeuce(Game game) {
-        Assertions.assertThat(game.isDeuce()).isTrue();
-    }
-
-    @Then("playerTwo should have advantage in {game}")
-    public void playerTwoShouldHaveAnAdvantage(Game game) {
-        Assertions.assertThat(game.getAdvantage()).isEqualTo(game.getPlayerTwo());
-    }
-
-    @Then("playerOne should have advantage in {game}")
-    public void playerOneShouldHaveAnAdvantage(Game game) {
-        Assertions.assertThat(game.getAdvantage()).isEqualTo(game.getPlayerOne());
-    }
-
     @Then("playerOne score translation should be {string}")
     public void playerOneScoreTranslationShouldBe(String string) {
         Assertions.assertThat(context.game.getScoreTraduction().get(context.game.getPlayerOne().getScore())).isEqualTo(string);
-    }
-
-    @Then("nobody should have advantage in game")
-    public void nobodyShouldHaveAdvantageIngame() {
-        Assertions.assertThat(context.game.getAdvantage()).isNull();
     }
 
     @Then("game should not have a winner")
@@ -106,5 +86,9 @@ public class ScoreSteps {
         Assertions.assertThat(context.game.getWinner()).isNull();
     }
 
+    @Then("playerOne score {int} should not be translated")
+    public void playerOneScoreShouldNotBeTranslated(int score) {
+        Assertions.assertThat(context.game.getScoreTraduction().get(score)).isNull();
 
+    }
 }

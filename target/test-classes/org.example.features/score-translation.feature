@@ -19,4 +19,6 @@ Feature: Score translation
     Given playerOne has scored 3 times
     Then playerOne score translation should be "FORTY"
 
-
+  Scenario: Four points can't be translated
+    Given playerOne has scored 4 times
+    Then playerOne score 4 should not be translated
