@@ -3,6 +3,7 @@ package org.example;
 import java.util.Map;
 
 public class Game {
+
     private final Map<Integer, String> scoreNames = Map.of(
             3,"FORTY",
             2, "THIRTY",
@@ -66,7 +67,7 @@ public class Game {
     public String getGameScore() {
 
         if (getWinner() != null) {
-            return getWinner().getName() + " WINS";
+            return "** "+ getWinner().getName() + " WINS **";
         }
 
         if (getAdvantage() != null) {
@@ -77,29 +78,66 @@ public class Game {
             if (isDeuce()) {
                 return "DEUCE";
             }
-            return translateScore(playerOne.getScore()) + " ALL";
+            return translateScore(playerOne.getScore()) + " all";
         }
 
         return String.format("%s : %s, %s : %s",
                 playerOne.getName(), translateScore(playerOne.getScore()),playerTwo.getName(),translateScore(playerTwo.getScore()));
     }
 
-    public void play(){
+    public boolean areScoresSuitable(int score1, int score2) {
 
-        System.out.println("game starts");
-        System.out.println(getGameScore());
-        //TODO voir avec les filles pour un illegalScoreException (si on entre des players avec p1.score = 8 et p2.score = 3 par exemple)
-        // => pas expliqué par codé ?
-        while(getWinner() == null){
-            if((int)Math.round(Math.random()) == 0){
-                playerOne.scores();
-                System.out.println(playerOne.getName() + " scores");
-            } else{
-                playerTwo.scores();
-                System.out.println(playerTwo.getName() + " scores");
-            }
-            System.out.println(getGameScore());
+        //if scores aren't suitable (ex 9 - 0)
+        if(score1 >= 4 && score1 > score2 + 2 || score2 >= 4 && score2 > score1 + 2) {
+            return false;
         }
+
+        //if scores are suitable but someone won (ex 7 - 5)
+        if(score1 >= 4 && score1 == score2 + 2) {
+            System.out.println(playerOne.getName() + " already won");
+            return false;
+        }
+        if(score2 >= 4 && score2 == score1 + 2) {
+            System.out.println(playerTwo.getName() + " already won");
+            return false;
+        }
+
+        return true;
     }
 
+    public void play(){
+        //Different players verification
+        if(this.playerOne.equals(this.playerTwo)) {
+            throw new IllegalArgumentException("Two different players are required");
+        }
+
+        //Suitable scores verification
+        if(areScoresSuitable(playerOne.getScore(), playerTwo.getScore())) {
+
+            if (this.playerOne.getScore() == 0 && this.playerTwo.getScore() == 0) {
+                System.out.println("Game starts");
+                System.out.println("------------------");
+            } else {
+                System.out.println("Game resumes");
+                System.out.println("------------------");
+
+            }
+
+            System.out.println(getGameScore());
+            //TODO voir avec les filles pour un illegalScoreException (si on entre des players avec p1.score = 8 et p2.score = 3 par exemple)
+            // => pas expliqué par codé ?
+            while(getWinner() == null){
+                if((int)Math.round(Math.random()) == 0){
+                    playerOne.scores();
+                    System.out.println(playerOne.getName() + " scores");
+                } else{
+                    playerTwo.scores();
+                    System.out.println(playerTwo.getName() + " scores");
+                }
+                System.out.println(getGameScore());
+            }
+        } else {
+            throw new IllegalArgumentException("Game can't start : illegal scores");
+        }
+    }
 }

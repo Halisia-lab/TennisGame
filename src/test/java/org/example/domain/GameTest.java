@@ -19,5 +19,7 @@ public class GameTest
         Game tennisGame = new Game(new Player("playerOne"), new Player("playerTwo"));
         Assertions.assertThat(tennisGame.getPlayerOne().getScore()).isEqualTo(0);
         Assertions.assertThat(tennisGame.getPlayerTwo().getScore()).isEqualTo(0);
+
+
     }
 }
